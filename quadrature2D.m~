@@ -1,0 +1,12 @@
+function I = quadrature2D(p1, p2, p3, Nq, g)
+
+[Zeta, W] = gauss_quadrature_2D(Nq);
+I = 0;
+Jacobian = abs((p1(1) - p3(1)) );
+
+for q = 1:Nq
+    x = Zeta(Nq, 1) * p1 + Zeta(Nq, 2) * p2 + Zeta(Nq, 3) * p3;
+    I = I + W(q) * g(x) * Jacobian;
+end
+
+end

@@ -13,6 +13,6 @@ switch Nq
         W = [-9/32 25/96 25/96 25/96];
         Zeta = [1/3 1/3 1/3; 3/5 1/5 1/5; 1/5 3/5 1/5; 1/5 1/5 3/5];
     otherwise
-        disp('Number of integration points can only equal 1, 3 or 4.')
+        error('Number of integration points can only equal 1, 3 or 4.')
         
 end
