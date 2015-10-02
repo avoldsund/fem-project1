@@ -4,8 +4,8 @@ function [Zeta, W] = gauss_quadrature_2D(Nq)
 
 switch Nq
     case 1
-        Zeta = [1/3 1/3 1/3];
         W = 1/2;
+        Zeta = [1/3 1/3 1/3];
     case 3
         W = [1/6 1/6 1/6];
         Zeta = [1/2 1/2 0; 1/2 0 1/2; 0 1/2 1/2];
