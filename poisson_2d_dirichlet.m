@@ -1,4 +1,4 @@
-function u = poisson_2d_dirichlet(f, nr_of_mesh_nodes)
+function poisson_2d_dirichlet(f, nr_of_mesh_nodes)
 % The function takes a f function and a number of mesh nodes. It
 % approximates the solution for u, and plots this, based on interpolation.
 % The plotted solution shows u on unit disc.
@@ -36,7 +36,11 @@ end
 error = abs(u - u_analytical);
 max_error = max(error);
 % Plot of the error
+figure
 trimesh(tri, p(:,1), p(:,2), error)
+colorbar
+str = sprintf('Error plot. Max error: %f ', max_error);
+title(str)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Interpolated plots and solutions
@@ -50,7 +54,7 @@ U(X.^2 + Y.^2 > 1) = 0;
 
 figure
 mesh(X,Y,U)
-str=sprintf('Numerical approximation using %d points', nr_of_mesh_nodes);
+str=sprintf('Numerical approximation using %d points and interpolation', nr_of_mesh_nodes);
 title(str)
 
 % Plot of analytical solution
@@ -67,10 +71,11 @@ title(str)
 f = scatteredInterpolant(p(:,1), p(:,2), error);
 E = f(X,Y);
 E(X.^2 + Y.^2 > 1) = 0;
+figure
 mesh(X, Y, E)
-title('Error plot')
+title('Error plot for interpolated solution and error')
 colorbar
-
+error_interpolated = abs(max(max(E - U_analytical)))
 
 % Plot of u. To do this we follow a procedure for surface plots of
 % nonuniformly sampled data. We create two vectors xlin and ylin that are
