@@ -1,5 +1,7 @@
 function b = poisson_2d_mixed_boundaries(f, nr_of_mesh_nodes)
-
+% The function takes a f function and a number of mesh nodes. It
+% approximates the solution for u, and plots this.
+% The plotted solution shows u on unit disc with the mixed boundary conditions.
 
 % Get the triangulation elements, the vertices and edges
 [p, tri, edge] = getDisk(nr_of_mesh_nodes);
@@ -39,7 +41,6 @@ end
 
 % Changing the A-matrix to correspond with boundary conditions
 edge_indices_with_dirchlet = union(sigma_D(:,1), sigma_D(:,2));
-A(:, edge_indices_with_dirchlet) = 0;
 A(edge_indices_with_dirchlet, :) = 0;
 A(edge_indices_with_dirchlet, edge_indices_with_dirchlet) = eye(length(edge_indices_with_dirchlet));
 b(edge_indices_with_dirchlet) = 0;

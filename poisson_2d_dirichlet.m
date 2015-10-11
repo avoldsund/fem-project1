@@ -77,11 +77,4 @@ title('Error plot for interpolated solution and error')
 colorbar
 error_interpolated = abs(max(max(E - U_analytical)))
 
-% Plot of u. To do this we follow a procedure for surface plots of
-% nonuniformly sampled data. We create two vectors xlin and ylin that are
-% uniformly spaced, and create a meshgrid based on these. We then
-% interpolate the values of the function at the uniformly spaced points
-% based on the function values in the old nonuniform sample points.
-
-
 end
