@@ -1,7 +1,9 @@
-function poisson_2d_dirichlet(f, nr_of_mesh_nodes)
-% The function takes a f function and a number of mesh nodes. It
+function poisson_2d_dirichlet(nr_of_mesh_nodes)
+% The function takes a number of mesh nodes. It
 % approximates the solution for u, and plots this, based on interpolation.
 % The plotted solution shows u on unit disc.
+
+f = @(x) -8 * pi * cos(2 * pi * (x(1)^2 + x(2)^2)) + 16 * pi^2 * (x(1)^2 + x(2)^2) * sin(2 * pi * (x(1)^2 + x(2)^2));
 
 % Get the triangulation elements, the vertices and edges
 [p, tri, edge] = getDisk(nr_of_mesh_nodes);
@@ -14,15 +16,16 @@ function poisson_2d_dirichlet(f, nr_of_mesh_nodes)
 % Setting all columns and rows with an index on the edge to 0. Setting the
 % diagonal elements to 1 for the zero rows. Let the elements in the
 % b-vector be equal to 0 for the edge indices.
-A(edge(:,1), :) = 0;
-A(edge(:,1), edge(:,1)) = eye(length(edge));
-b(edge(:,1)) = 0;
+boundary = edge(:,1);
+A(boundary, :) = 0;
+A(boundary, boundary) = speye(length(edge));
+b(boundary) = 0;
 
 % Solving the system to find the weights for u.
 u = A\b;
 
 % Plotting the solution
-trimesh(tri, p(:,1), p(:,2), u)
+trimesh(tri, p(:,1), p(:,2), full(u))
 str = sprintf('Numerical approximation using %d points', nr_of_mesh_nodes);
 title(str)
 
@@ -36,7 +39,7 @@ error = abs(u - u_analytical);
 max_error = max(error);
 % Plot of the error
 figure
-trimesh(tri, p(:,1), p(:,2), error)
+trimesh(tri, p(:,1), p(:,2), full(error))
 colorbar
 str = sprintf('Error plot. Max error: %f ', max_error);
 title(str)
@@ -47,7 +50,7 @@ title(str)
 xlin = linspace(-1, 1, nr_of_mesh_nodes);
 ylin = linspace(-1, 1, nr_of_mesh_nodes);
 [X, Y] = meshgrid(xlin, ylin);
-f = scatteredInterpolant(p(:,1), p(:,2), u);
+f = scatteredInterpolant(p(:,1), p(:,2), full(u));
 U = f(X,Y);
 U(X.^2 + Y.^2 > 1) = 0;
 
@@ -74,6 +77,5 @@ figure
 mesh(X, Y, E)
 title('Error plot for interpolated solution and error')
 colorbar
-error_interpolated = abs(max(max(E - U_analytical)))
 
 end

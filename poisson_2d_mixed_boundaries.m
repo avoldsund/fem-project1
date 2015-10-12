@@ -1,7 +1,9 @@
-function poisson_2d_mixed_boundaries(f, nr_of_mesh_nodes)
-% The function takes a f function and a number of mesh nodes. It
+function poisson_2d_mixed_boundaries(nr_of_mesh_nodes)
+% The function takes a number of mesh nodes. It
 % approximates the solution for u, and plots this.
 % The plotted solution shows u on unit disc with the mixed boundary conditions.
+
+f = @(x) -8 * pi * cos(2 * pi * (x(1)^2 + x(2)^2)) + 16 * pi^2 * (x(1)^2 + x(2)^2) * sin(2 * pi * (x(1)^2 + x(2)^2));
 
 % Get the triangulation elements, the vertices and edges
 [p, tri, edge] = getDisk(nr_of_mesh_nodes);
@@ -46,7 +48,8 @@ A(edge_indices_with_dirchlet, edge_indices_with_dirchlet) = eye(length(edge_indi
 b(edge_indices_with_dirchlet) = 0;
 u = A\b;
 
-trimesh(tri, p(:,1), p(:,2), u)
+% Plot of the numerical solution.
+trimesh(tri, p(:,1), p(:,2), full(u))
 str = sprintf('Numerical approximation using %d points', nr_of_mesh_nodes);
 title(str)
 
@@ -58,6 +61,7 @@ end
 
 error = abs(u - u_analytical);
 max_error = max(error);
+
 % Plot of the error
 figure
 trimesh(tri, p(:,1), p(:,2), error)
