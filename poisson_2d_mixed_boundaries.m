@@ -1,4 +1,4 @@
-function b = poisson_2d_mixed_boundaries(f, nr_of_mesh_nodes)
+function poisson_2d_mixed_boundaries(f, nr_of_mesh_nodes)
 % The function takes a f function and a number of mesh nodes. It
 % approximates the solution for u, and plots this.
 % The plotted solution shows u on unit disc with the mixed boundary conditions.
@@ -8,7 +8,7 @@ function b = poisson_2d_mixed_boundaries(f, nr_of_mesh_nodes)
 
 % Get the stiffness matrix and the b vector before they are altered from
 % the boundary conditions.
-[A, b] = get_stiffness_matrix_and_b(nr_of_mesh_nodes, f, p, tri);
+[A, b] = get_stiffness_matrix_and_load_vector_2D(nr_of_mesh_nodes, f, p, tri);
 
 % Find all edge points, and then find sigma_N, i.e. the edge points at the
 % top half of the disk.
@@ -64,5 +64,7 @@ trimesh(tri, p(:,1), p(:,2), error)
 colorbar
 str = sprintf('Error plot. Max error: %f ', max_error);
 title(str)
+xlabel('x')
+ylabel('y')
 
 end

@@ -8,13 +8,12 @@ function poisson_2d_dirichlet(f, nr_of_mesh_nodes)
 
 % Get the stiffness matrix and the b vector before they are altered from
 % the boundary conditions.
-[A, b] = get_stiffness_matrix_and_b(nr_of_mesh_nodes, f, p, tri);
+[A, b] = get_stiffness_matrix_and_load_vector_2D(nr_of_mesh_nodes, f, p, tri);
 
 % Implementing Dirichlet boundary conditions
 % Setting all columns and rows with an index on the edge to 0. Setting the
 % diagonal elements to 1 for the zero rows. Let the elements in the
 % b-vector be equal to 0 for the edge indices.
-A(:, edge(:,1)) = 0;
 A(edge(:,1), :) = 0;
 A(edge(:,1), edge(:,1)) = eye(length(edge));
 b(edge(:,1)) = 0;
